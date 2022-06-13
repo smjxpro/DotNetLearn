@@ -1,0 +1,16 @@
+@page
+@model WebApp.Pages.Post.DetailsModel
+
+@{
+    ViewData["Title"] = Model.Post.Name;
+}
+
+
+<h1>@Model.Post.Name</h1>
+<span>@Model.Post.TimeStamp</span>
+@Html.Raw(Model.Post.Content)
+<a asp-page="/Post/Update" asp-route-id="@Model.Post.Id">Update</a>
+<form method="post">
+    <button type="submit" asp-page-handler="delete" asp-route-id="@Model.Post.Id">Delete</button>
+
+</form>

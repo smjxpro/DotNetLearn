@@ -1,0 +1,77 @@
+@page
+@model WebApp.Pages.Post.AddModel
+
+@{
+    ViewBag.Title = "Add Post";
+}
+
+
+
+<h1>Add Post</h1>
+
+<form method="post">
+    <div>
+         <label asp-for="Post.Name"></label>
+            <input class="form-control" asp-for="Post.Name"/>
+    </div>
+    
+    <div>
+        <label asp-for="Post.Content"></label>
+        <textarea id="content" asp-for="Post.Content"></textarea>
+    </div>
+    
+    <div>
+        <label asp-for="Post.TimeStamp"></label>
+        <input class="form-control" asp-for="Post.TimeStamp"/>
+    </div>
+
+    <input type="submit" value="Add Post"/>
+</form>
+
+@section Scripts{
+
+    <script>
+      $(document).ready(function() {
+          
+           $('#content').summernote({
+                   callbacks: {
+                       onImageUpload: function(files) {
+                           for(let i=0; i < files.length; i++) {
+                               $.upload(files[i]);
+                           }
+                       }
+                   },
+                   height: 500,
+               });
+           
+               $.upload = function (file) {
+                   let out = new FormData();
+                   out.append('file', file, file.name);
+           
+                   $.ajax({
+                       method: 'POST',
+                       url: 'upload',
+                       contentType: false,
+                       cache: false,
+                       processData: false,
+                       data: out,
+                       success: function (img) {
+                           $('#content').summernote('insertImage', img);
+                       },
+                       error: function (jqXHR, textStatus, errorThrown) {
+                           console.error(textStatus + " " + errorThrown);
+                       }
+                   });
+               };
+             
+             
+             
+             
+             
+             
+             $('.dropdown-toggle').dropdown()
+
+         });
+     </script>
+
+}

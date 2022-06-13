@@ -1,7 +1,18 @@
+using Core.Repositories;
+using Infrastructure.Data;
+using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("SqLite"));
+});
+
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 var app = builder.Build();
 
